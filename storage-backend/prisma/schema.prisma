@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model File {
+  id        String    @id
+  name      String
+  type      String
+  size      Int
+  path      String
+  createdAt DateTime
+  updatedAt DateTime
+  isFolder  Boolean
+  folderId  String?
+  thumbnail String?
+  parent    File?     @relation("FolderStructure", fields: [folderId], references: [id])
+  children  File[]    @relation("FolderStructure")
+}
